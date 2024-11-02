@@ -1,1 +1,34 @@
-{}
+{
+  "Sections": [
+    {
+      "Title": "Популярные",
+      "Items": [
+        {
+          "id": 1,
+          "title": "Сказка о Царе Салтане",
+          "image": "src/assets/images/tail-preview.png"
+        },
+        {
+          "id": 2,
+          "title": "Сказка о Царе Салтане",
+          "image": "src/assets/images/tail-preview.png"
+        },
+        {
+          "id": 3,
+          "title": "Сказка о Царе Салтане",
+          "image": "src/assets/images/tail-preview.png"
+        },
+        {
+          "id": 4,
+          "title": "Сказка о Царе Салтане",
+          "image": "src/assets/images/tail-preview.png"
+        },
+        {
+          "id": 5,
+          "title": "Сказка о Царе Салтане",
+          "image": "src/assets/images/tail-preview.png"
+        }
+      ]
+    }
+  ]
+}

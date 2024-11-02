@@ -1,8 +1,80 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import NavBar from "@/components/NavBar.vue";
+import TailCard from "@/components/TailCard.vue";
+import data from "@/data/data.json";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
+const isDetailView = computed(() => route.name === "detail");
+</script>
 
 <template>
-  <h1>Favorites</h1>
+  <div class="wrapper">
+    <div class="page" v-if="!isDetailView">
+      <h1 class="page-title">Избранное</h1>
+
+      <div v-for="section in data.Sections" class="section">
+        <div class="items-wrapper">
+          <TailCard v-for="item in section.Items" :key="item.id" :item="item" />
+        </div>
+      </div>
+    </div>
+    <NavBar />
+  </div>
   <router-view></router-view>
 </template>
 
-<style scoped></style>
+<style scoped>
+.wrapper {
+  background-color: #fff;
+  width: 100%;
+  height: 100vh;
+}
+
+.page {
+  width: 100%;
+  height: 100%;
+  padding: 44px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: #fff;
+  overflow-y: auto;
+  max-height: calc(100vh - 70px);
+}
+
+.page-title {
+  font-family: Montserrat-Medium;
+  font-weight: 500;
+  font-size: 32px;
+  color: #000;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-family: Montserrat-SemiBold;
+  font-weight: 600;
+  font-size: 18px;
+  color: #232323;
+}
+
+.items-wrapper {
+  max-width: 100%;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+</style>
