@@ -1,25 +1,36 @@
 <script setup lang="ts">
-import NavBar from "@/components/NavBar.vue";
 import TailCard from "@/components/TailCard.vue";
 import data from "@/data/data.json";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 const isDetailView = computed(() => route.name === "detail");
+const listOfFavorites = ref<string[]>([]);
+onMounted(() => {
+  listOfFavorites.value = localStorage.getItem("favorites")?.split(",") || [];
+});
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="page" v-if="!isDetailView">
+  <div class="wrapper" v-if="!isDetailView">
+    <div class="page">
       <h1 class="page-title">Избранное</h1>
 
       <div v-for="section in data.Sections" class="section">
         <div class="items-wrapper">
-          <TailCard v-for="item in section.Items" :key="item.id" :item="item" />
+          <TailCard
+            v-for="item in section.Items"
+            :key="item.id"
+            :item="item"
+            :class="{
+              'tail-card-not-favorite': !listOfFavorites.includes(
+                item.id.toString()
+              ),
+            }"
+          />
         </div>
       </div>
     </div>
-    <NavBar />
   </div>
   <router-view></router-view>
 </template>
@@ -76,5 +87,9 @@ const isDetailView = computed(() => route.name === "detail");
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
+}
+
+.tail-card-not-favorite {
+  display: none;
 }
 </style>

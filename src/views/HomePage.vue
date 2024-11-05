@@ -3,7 +3,6 @@ import TailCard from "@/components/TailCard.vue";
 import data from "@/data/data.json";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import NavBar from "../components/NavBar.vue";
 
 const route = useRoute();
 
@@ -11,8 +10,8 @@ const isDetailView = computed(() => route.name === "detail");
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="page" v-if="!isDetailView">
+  <div class="wrapper" v-if="!isDetailView">
+    <div class="page">
       <h1 class="page-title">Сказки на день</h1>
 
       <div v-for="section in data.Sections" class="section">
@@ -24,7 +23,6 @@ const isDetailView = computed(() => route.name === "detail");
         </div>
       </div>
     </div>
-    <NavBar />
   </div>
   <router-view></router-view>
 </template>

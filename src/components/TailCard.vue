@@ -8,15 +8,23 @@ type Item = {
 };
 const props = defineProps<{ item: Item }>();
 const isFavorite = ref(
-  localStorage.getItem(props.item.id.toString()) === "true"
+  localStorage.getItem("favorites")?.includes(props.item.id.toString())
 );
-
+const listOfFavorites = ref<string[]>([]);
 const changeFavorite = () => {
+  const favorites = localStorage.getItem("favorites");
+  if (favorites) {
+    listOfFavorites.value = favorites.split(",");
+  }
   isFavorite.value = !isFavorite.value;
   if (!isFavorite.value) {
-    localStorage.removeItem(props.item.id.toString());
+    listOfFavorites.value = listOfFavorites.value.filter(
+      (id) => id !== props.item.id.toString()
+    );
+    localStorage.setItem("favorites", String(listOfFavorites.value));
   } else {
-    localStorage.setItem(props.item.id.toString(), JSON.stringify(true));
+    listOfFavorites.value.push(props.item.id.toString());
+    localStorage.setItem("favorites", String(listOfFavorites.value));
   }
 };
 </script>
