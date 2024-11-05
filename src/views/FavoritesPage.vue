@@ -4,7 +4,7 @@ import data from "@/data/data.json";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
-const isDetailView = computed(() => route.name === "detail");
+const isDetailView = computed(() => route.name === "favorite-details");
 const listOfFavorites = ref<string[]>([]);
 onMounted(() => {
   listOfFavorites.value = localStorage.getItem("favorites")?.split(",") || [];

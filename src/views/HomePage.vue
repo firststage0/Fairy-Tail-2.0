@@ -6,7 +6,7 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const isDetailView = computed(() => route.name === "detail");
+const isDetailView = computed(() => route.name === "home-details");
 </script>
 
 <template>

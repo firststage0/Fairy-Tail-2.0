@@ -4,7 +4,7 @@ import NavBar from "@/components/NavBar.vue";
 
 <template>
   <router-view></router-view>
-  <NavBar v-show="$route.name === 'home' || $route.name === 'favorites'" />
+  <NavBar v-if="$route.name === 'home' || $route.name === 'favorites'" />
 </template>
 
 <style scoped></style>

@@ -1,49 +1,45 @@
 <script setup lang="ts">
+import { useStore } from "@/stores/store";
+import { Item } from "@/types/Item.types";
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-type Item = {
-  id: number;
-  title: string;
-  image: string;
-};
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+const { changeFavorite } = store;
+
 const props = defineProps<{ item: Item }>();
 const isFavorite = ref(
   localStorage.getItem("favorites")?.includes(props.item.id.toString())
 );
-const listOfFavorites = ref<string[]>([]);
-const changeFavorite = () => {
-  const favorites = localStorage.getItem("favorites");
-  if (favorites) {
-    listOfFavorites.value = favorites.split(",");
-  }
+
+const pinItem = () => {
+  changeFavorite(props.item.id, !isFavorite.value);
   isFavorite.value = !isFavorite.value;
-  if (!isFavorite.value) {
-    listOfFavorites.value = listOfFavorites.value.filter(
-      (id) => id !== props.item.id.toString()
-    );
-    localStorage.setItem("favorites", String(listOfFavorites.value));
-  } else {
-    listOfFavorites.value.push(props.item.id.toString());
-    localStorage.setItem("favorites", String(listOfFavorites.value));
-  }
+};
+
+const navigateToDetails = () => {
+  router.push(`${String(route.name)}/details/${props.item.id}`);
 };
 </script>
 
 <template>
   <div
+    @click.self="navigateToDetails"
     class="tail-card"
     :style="{ backgroundImage: `url(${props.item.image})` }"
   >
     <img
       v-if="isFavorite"
-      @click="changeFavorite"
+      @click.self="pinItem"
       src="@/assets/images/unfavorite.svg"
       alt=""
       class="favorite-button"
     />
     <img
       v-else
-      @click="changeFavorite"
+      @click="pinItem"
       src="@/assets/images/favorite.svg"
       alt=""
       class="favorite-button"

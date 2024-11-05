@@ -1,25 +1,26 @@
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { ref } from "vue";
 
 export const useStore = defineStore("store", () => {
-  const pageStatus: { [key: string]: boolean } = reactive({
-    home: true,
-    favorite: false,
-  });
+  const listOfFavorites = ref<string[]>([]);
+  const changeFavorite = (itemId: number, isFavorite: boolean) => {
+    const favorites = localStorage.getItem("favorites");
+    if (favorites) {
+      listOfFavorites.value = favorites.split(",");
+    }
 
-  const changePage = (page: string) => {
-    console.log(page);
-
-    (pageStatus as unknown as { [key: string]: boolean })[page] = true;
-    Object.keys(pageStatus).forEach((key) => {
-      if (key !== page) {
-        (pageStatus as unknown as { [key: string]: boolean })[key] = false;
-      }
-    });
+    if (isFavorite) {
+      listOfFavorites.value = listOfFavorites.value.filter(
+        (id) => id !== itemId.toString()
+      );
+      localStorage.setItem("favorites", String(listOfFavorites.value));
+    } else {
+      listOfFavorites.value.push(itemId.toString());
+      localStorage.setItem("favorites", String(listOfFavorites.value));
+    }
   };
-
   return {
-    pageStatus,
-    changePage,
+    changeFavorite,
+    listOfFavorites,
   };
 });
